@@ -37,3 +37,34 @@ export function clearExport() {
     /* ignore */
   }
 }
+
+// ---- visited profiles ----
+const VISITED_KEY = 'unfollow.local:visited-profiles'
+
+export function loadVisited() {
+  try {
+    const raw = localStorage.getItem(VISITED_KEY)
+    if (!raw) return new Set()
+    const arr = JSON.parse(raw)
+    return new Set(Array.isArray(arr) ? arr : [])
+  } catch {
+    return new Set()
+  }
+}
+
+export function saveVisited(visited) {
+  try {
+    const arr = Array.from(visited)
+    localStorage.setItem(VISITED_KEY, JSON.stringify(arr))
+  } catch {
+    /* ignore */
+  }
+}
+
+export function clearVisited() {
+  try {
+    localStorage.removeItem(VISITED_KEY)
+  } catch {
+    /* ignore */
+  }
+}

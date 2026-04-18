@@ -160,8 +160,10 @@ export function diffFansNotFollowedBack({ followers, following }) {
     .sort((a, b) => b.timestamp - a.timestamp)
 }
 
-export function toCsv(rows) {
-  const header = ['username', 'url', 'seguido_desde']
+export function toCsv(rows, visitedProfiles = null) {
+  const header = visitedProfiles
+    ? ['username', 'url', 'seguido_desde', 'visitado']
+    : ['username', 'url', 'seguido_desde']
   const lines = [header.join(',')]
   for (const row of rows) {
     const date = row.timestamp
@@ -171,13 +173,17 @@ export function toCsv(rows) {
       const s = String(v ?? '')
       return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s
     }
-    lines.push([safe(row.username), safe(row.url), safe(date)].join(','))
+    const values = [safe(row.username), safe(row.url), safe(date)]
+    if (visitedProfiles) {
+      values.push(visitedProfiles.has(row.username) ? 'sí' : 'no')
+    }
+    lines.push(values.join(','))
   }
   return lines.join('\n')
 }
 
-export function downloadCsv(rows, filename) {
-  const csv = toCsv(rows)
+export function downloadCsv(rows, filename, visitedProfiles = null) {
+  const csv = toCsv(rows, visitedProfiles)
   const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' })
   const url = URL.createObjectURL(blob)
   const a = document.createElement('a')

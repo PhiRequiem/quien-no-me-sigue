@@ -20,6 +20,65 @@ html {
   color-scheme: light;
 }
 
+html.dark {
+  color-scheme: dark;
+  --color-ink: #e8e8eb;
+  --color-paper: #0f0f12;
+  --color-line: #262629;
+  --color-muted: #88888e;
+  --color-accent: #e8e8eb;
+}
+
+html.dark {
+  background-color: #0f0f12;
+  color: #e8e8eb;
+}
+
+html.dark table {
+  background-color: #1a1a1f;
+}
+
+html.dark tbody tr {
+  border-color: #262629;
+}
+
+html.dark thead {
+  background-color: #16161b;
+  border-color: #262629;
+}
+
+html.dark input[type="text"],
+html.dark input[type="search"],
+html.dark select {
+  background-color: #1a1a1f;
+  color: #e8e8eb;
+  border-color: #262629;
+}
+
+html.dark input[type="text"]:focus,
+html.dark input[type="search"]:focus,
+html.dark select:focus {
+  border-color: #e8e8eb;
+}
+
+html.dark button {
+  background-color: #1a1a1f;
+  border-color: #262629;
+  color: #88888e;
+}
+
+html.dark button[type="button"]:hover {
+  background-color: #262629;
+}
+
+html.dark .border-\[var\(--color-line\)\] {
+  border-color: #262629;
+}
+
+html.dark .bg-white {
+  background-color: #1a1a1f;
+}
+
 body {
   background-color: var(--color-paper);
   color: var(--color-ink);
@@ -27,6 +86,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-feature-settings: "ss01", "cv11";
+  transition: background-color 0.2s, color 0.2s;
 }
 
 ::selection {
