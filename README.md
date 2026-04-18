@@ -44,23 +44,36 @@ Descubre quién no te sigue en Instagram. Analiza tus followers y following loca
 - **Lucide Icons** - Iconografía consistente
 - **JSZip** - Procesamiento de archivos ZIP en el navegador
 
-## Desarrollo local
+## Deployment
 
-```bash
-cd app
-npm install
-npm run dev
-```
+### Vercel (recomendado)
 
-Abre `http://localhost:5173` en tu navegador.
+La forma más fácil de deployar. Solo necesitas:
 
-### Build para producción
+1. [Conecta tu repositorio GitHub a Vercel](https://vercel.com/new)
+2. Vercel detectará que es un proyecto Vite y hará el build automáticamente
+3. Tu app estará online en `<nombre>.vercel.app`
+
+Cada push a `main` se despliega automáticamente.
+
+### Deploy manual
+
+Si prefieres otro hosting:
 
 ```bash
 npm run build
 ```
 
-Genera la carpeta `dist/` lista para desplegar.
+Sube la carpeta `dist/` a tu servidor estático (Netlify, GitHub Pages, etc.)
+
+## Desarrollo local
+
+```bash
+npm install
+npm run dev
+```
+
+Abre `http://localhost:5173` en tu navegador.
 
 ## Privacidad
 

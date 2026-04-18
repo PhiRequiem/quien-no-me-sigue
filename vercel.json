@@ -1,0 +1,11 @@
+{
+  "name": "quien-no-me-sigue",
+  "version": 2,
+  "public": false,
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "framework": "vite",
+  "env": {},
+  "devCommand": "npm run dev",
+  "installCommand": "npm install"
+}
