@@ -30,6 +30,16 @@ const emit = defineEmits(['reset', 'compare-pick'])
 // ---- view & search ----
 const view = ref('ghosts')
 const query = ref('')
+const debouncedQuery = ref('')
+
+let debounceTimer = null
+function updateQuery(val) {
+  query.value = val
+  clearTimeout(debounceTimer)
+  debounceTimer = setTimeout(() => {
+    debouncedQuery.value = val
+  }, 300)
+}
 
 // ---- sort ----
 const sortKey = ref('timestamp')
@@ -69,7 +79,7 @@ const headline = computed(() => {
 })
 
 const filtered = computed(() => {
-  const q = query.value.trim().toLowerCase()
+  const q = debouncedQuery.value.trim().toLowerCase()
   let rows = q
     ? activeRows.value.filter((r) => r.username.toLowerCase().includes(q))
     : [...activeRows.value]
@@ -260,10 +270,11 @@ function onCompareChange(e) {
           />
           <input
             id="search-usuario"
-            v-model="query"
+            :value="query"
             type="search"
             placeholder="Buscar usuario"
             class="w-full rounded-full border border-[var(--color-line)] bg-white py-2 pl-9 pr-4 text-sm outline-none transition-colors focus:border-[var(--color-ink)]"
+            @input="updateQuery($event.target.value)"
           />
         </div>
 
