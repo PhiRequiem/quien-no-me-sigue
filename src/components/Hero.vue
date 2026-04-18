@@ -1,18 +1,10 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { Upload, Lock, AlertCircle, Loader2 } from 'lucide-vue-next'
 
 const emit = defineEmits(['file'])
 const isDragging = ref(false)
 const inputRef = ref(null)
-
-// Para recibir isDarkMode del parent si es necesario
-const isDarkMode = computed(() => {
-  if (typeof window !== 'undefined') {
-    return document.documentElement.classList.contains('dark')
-  }
-  return false
-})
 
 defineProps({
   loading: { type: Boolean, default: false },
@@ -46,7 +38,10 @@ function openPicker() {
         Analisis local, sin subir nada a ningun servidor
       </p>
       <h1 class="mt-4 text-3xl font-medium tracking-tight sm:mt-6 sm:text-5xl lg:text-6xl">
-        Analiza tus seguidores de Instagram
+        Quien sigues y no te sigue en
+        <span class="bg-gradient-to-r from-[#833AB4] via-[#FD1D1D] to-[#FCAF45] bg-clip-text text-transparent">
+          Instagram
+        </span>
       </h1>
       <p class="mt-4 text-base text-[var(--color-muted)] sm:mt-5 sm:text-lg">
         Descubre quién no te sigue de vuelta, quiénes son tus fans (te siguen pero no les sigues),
@@ -57,12 +52,8 @@ function openPicker() {
         class="mt-12 rounded-2xl border border-dashed p-10 transition-colors"
         :class="[
           isDragging
-            ? isDarkMode
-              ? 'border-[var(--color-ink)] bg-[#1a1a1f]'
-              : 'border-[var(--color-ink)] bg-white'
-            : isDarkMode
-              ? 'border-[var(--color-line)] bg-[#16161b] hover:bg-[#1a1a1f]'
-              : 'border-[var(--color-line)] bg-white/60 hover:bg-white',
+            ? 'border-[var(--color-ink)] bg-white'
+            : 'border-[var(--color-line)] bg-white/60 hover:bg-white',
         ]"
         role="region"
         aria-label="Zona de carga de archivo (arrastra o haz clic)"

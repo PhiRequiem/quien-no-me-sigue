@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted, ref } from 'vue'
-import { CircleDot, ExternalLink, Github, MessageCircle, Scale, Moon, Sun } from 'lucide-vue-next'
+import { CircleDot, ExternalLink, Github, MessageCircle, Scale } from 'lucide-vue-next'
 
 // Actualiza esta URL una vez que subas el repositorio a GitHub
 const GITHUB_URL = 'https://github.com/phirequiem/quien-no-me-sigue'
@@ -20,15 +20,8 @@ const compareData = ref(null)
 const savedAt = ref(null)
 const loading = ref(false)
 const error = ref('')
-const isDarkMode = ref(false)
 
 onMounted(() => {
-  // dark mode setup
-  const stored = localStorage.getItem('unfollow.local:dark-mode')
-  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-  isDarkMode.value = stored ? stored === 'true' : prefersDark
-  applyDarkMode()
-
   const cached = loadExport()
   if (cached) {
     data.value = {
@@ -40,21 +33,6 @@ onMounted(() => {
     savedAt.value = cached.savedAt
   }
 })
-
-function toggleDarkMode() {
-  isDarkMode.value = !isDarkMode.value
-  localStorage.setItem('unfollow.local:dark-mode', String(isDarkMode.value))
-  applyDarkMode()
-}
-
-function applyDarkMode() {
-  const html = document.documentElement
-  if (isDarkMode.value) {
-    html.classList.add('dark')
-  } else {
-    html.classList.remove('dark')
-  }
-}
 
 async function handleFile(file) {
   error.value = ''
@@ -113,7 +91,7 @@ function reset() {
           <CircleDot class="h-4 w-4" :stroke-width="2.5" aria-hidden="true" />
           Quien no me sigue
         </a>
-        <nav class="flex items-center gap-4 text-sm text-[var(--color-muted)]">
+        <nav class="flex items-center gap-6 text-sm text-[var(--color-muted)]">
           <a href="#manual" class="hover:text-[var(--color-ink)]">Manual</a>
           <a
             href="https://accountscenter.instagram.com/info_and_permissions/"
@@ -124,16 +102,6 @@ function reset() {
             Export en Meta
             <ExternalLink class="h-3.5 w-3.5" :stroke-width="2" aria-hidden="true" />
           </a>
-          <button
-            type="button"
-            class="inline-flex cursor-pointer items-center gap-1.5 rounded-full p-1 transition-colors hover:bg-[var(--color-paper)]"
-            :title="isDarkMode ? 'Light mode' : 'Dark mode'"
-            @click="toggleDarkMode"
-            aria-label="Cambiar modo oscuro"
-          >
-            <Sun v-if="isDarkMode" class="h-4 w-4" :stroke-width="2" aria-hidden="true" />
-            <Moon v-else class="h-4 w-4" :stroke-width="2" aria-hidden="true" />
-          </button>
         </nav>
       </div>
     </header>

@@ -31,3 +31,6 @@ dist-ssr
 # OS
 .DS_Store
 Thumbs.db
+
+# Roadmap (privado - notas de desarrollo)
+ROADMAP.md
