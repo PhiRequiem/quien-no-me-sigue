@@ -13,10 +13,12 @@ import {
   ArrowUpRight,
   HardDriveDownload,
   Trash2,
+  TriangleAlert,
 } from 'lucide-vue-next'
 import {
   diffNotFollowingBack,
   diffFansNotFollowedBack,
+  detectPartialExport,
   downloadCsv,
   ageCategory,
 } from '../lib/parseInstagram.js'
@@ -96,6 +98,7 @@ function sortIcon(key) {
 // ---- data ----
 const ghosts = computed(() => diffNotFollowingBack(props.data))
 const fans = computed(() => diffFansNotFollowedBack(props.data))
+const partialExport = computed(() => detectPartialExport(props.data))
 const pending = computed(() =>
   [...(props.data.pending || [])].sort((a, b) => b.timestamp - a.timestamp),
 )
@@ -304,6 +307,29 @@ function onCompareChange(e) {
             <span class="h-2 w-2 rounded-full bg-purple-500" aria-hidden="true"></span>
             Limpiar visitados
           </button>
+        </div>
+      </div>
+
+      <!-- aviso export parcial -->
+      <div
+        v-if="partialExport"
+        role="alert"
+        class="mt-8 flex gap-3 rounded-xl border border-amber-300 bg-amber-50 px-4 py-4 text-sm text-amber-900"
+      >
+        <TriangleAlert class="mt-0.5 h-5 w-5 flex-shrink-0" :stroke-width="2" aria-hidden="true" />
+        <div>
+          <p class="font-medium">Tu export esta incompleto: los resultados no son confiables</p>
+          <p class="mt-1">
+            El archivo solo trae seguidores desde el {{ formatDate(partialExport.since) }}, pero
+            {{ partialExport.olderFollowing }} de tus seguidos son anteriores a esa fecha. Eso
+            pasa cuando el export se pide con un rango de fechas (por ejemplo "Ultimo ano"), y
+            hace que muchas cuentas que si te siguen aparezcan como que no.
+          </p>
+          <p class="mt-2">
+            Pide un nuevo export en Accounts Center y en "Intervalo de fechas" elige
+            <span class="font-medium">"Desde el principio"</span> (All time).
+            <a href="#manual" class="underline underline-offset-4">Ver manual</a>
+          </p>
         </div>
       </div>
 

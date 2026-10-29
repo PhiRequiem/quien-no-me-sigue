@@ -58,8 +58,10 @@ import { ExternalLink } from 'lucide-vue-next'
               elige
               <span class="rounded bg-[var(--color-line)]/60 px-1.5 py-0.5 font-mono text-xs"
                 >JSON</span
-              >
-              y como destino "Download to device".
+              >, en el intervalo de fechas elige
+              <span class="font-medium text-[var(--color-ink)]">"Desde el principio" (All time)</span>
+              y como destino "Download to device". Si eliges un rango como "Ultimo ano", Instagram
+              recorta tus seguidores y la lista saldra mal.
             </p>
           </div>
         </li>

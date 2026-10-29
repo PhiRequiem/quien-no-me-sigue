@@ -132,6 +132,25 @@ export function ageCategory(timestamp) {
   return null
 }
 
+const SIX_MONTHS_S = 180 * 24 * 3600
+
+// Detecta exports hechos con un rango de fechas acotado (ej. "Ultimo ano"):
+// Instagram recorta la lista de seguidores al rango pero la de seguidos no,
+// asi que casi todos los seguidos parecen "no me siguen".
+export function detectPartialExport({ followers, following }) {
+  const followerTs = followers.map((f) => f.timestamp).filter(Boolean)
+  const followingTs = following.map((f) => f.timestamp).filter(Boolean)
+  if (followerTs.length === 0 || followingTs.length === 0) return null
+
+  const oldestFollower = Math.min(...followerTs)
+  const oldestFollowing = Math.min(...followingTs)
+  const olderFollowing = followingTs.filter((ts) => ts < oldestFollower).length
+
+  if (oldestFollower - oldestFollowing < SIX_MONTHS_S) return null
+  if (olderFollowing / followingTs.length < 0.3) return null
+  return { since: oldestFollower, olderFollowing }
+}
+
 export function diffExports(dataA, dataB) {
   const aFollowerSet = new Set(dataA.followers.map((f) => f.username.toLowerCase()))
   const bFollowerSet = new Set(dataB.followers.map((f) => f.username.toLowerCase()))
